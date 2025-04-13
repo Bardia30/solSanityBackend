@@ -41,6 +41,7 @@ export default defineType({
                     { title: 'Alhambra', value: 'alhambra' },
                     { title: 'Yamaha', value: 'yamaha' },
                     { title: 'Persian', value: 'persian' },
+                    { title: 'AIM', value: 'aim' },
                     
                 ],
                 layout: 'dropdown',
