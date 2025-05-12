@@ -13,6 +13,13 @@ export default defineType({
             type: 'slug',
             options: { source: 'name', maxLength: 96 },
         }),
+        defineField({
+            name: 'featured',
+            title: 'Featured',
+            type: 'boolean',
+            description: 'Turn on to pin this product at the top of listings',
+            initialValue: false,
+        }),
         // New classification fields
         defineField({
             name: 'mainCategory',
@@ -20,9 +27,14 @@ export default defineType({
             type: 'string',
             options: {
                 list: [
-                    { title: 'Guitar', value: 'guitar' },
+                    { title: 'Classical Guitar', value: 'classical-guitar' },
+                    { title: 'Electric Guitar', value: 'acoustic-guitar' },
+                    { title: 'Acoustic Guitar', value: 'electric-guitar' },
+                    { title: 'Ukelele', value: 'ukelele' },
                     { title: 'Violin', value: 'violin' },
                     { title: 'Piano', value: 'piano' },
+                    { title: 'Amp', value: 'amp' },
+                    { title: 'Effect/pedal', value: 'effect-pedal' },
                     { title: 'Persian Instruments', value: 'persian-instruments' },
                     { title: 'Book', value: 'book' },
                     { title: 'Accessories', value: 'accessories' },
@@ -37,12 +49,27 @@ export default defineType({
             options: {
                 list: [
                     { title: 'ARS', value: 'ars' },
+                    { title: 'Akord-kvint', value: 'akord-kvint' },
+                    { title: 'Jackson', value: 'jackson' },
+                    { title: 'Gretsch', value: 'gretsch' },
+                    { title: 'EVH', value: 'evh' },
+                    { title: 'Line 6', value: 'line6' },
+                    { title: 'BeaverCreek', value: 'beavercreek' },
+                    { title: 'Alhambra', value: 'alhambra' },
+                    { title: 'Yamaha', value: 'yamaha' },
+                    { title: 'Zev', value: 'zev' },
+                    { title: 'Kun', value: 'kun' },
+                    { title: 'pirastro', value: 'pirastro' },
+                    { title: 'D\'Addario', value: 'daddario' },
+                    { title: 'Hal Leonard', value: 'rcm' },
+                    { title: 'Thomastik-Infeld', value: 'thomastik-infeld' },
+                    { title: 'Hill', value: 'hill' },
                     { title: 'Stentor', value: 'stentor' },
                     { title: 'Alhambra', value: 'alhambra' },
                     { title: 'Yamaha', value: 'yamaha' },
                     { title: 'Persian', value: 'persian' },
                     { title: 'AIM', value: 'aim' },
-                    
+
                 ],
                 layout: 'dropdown',
             },
@@ -58,10 +85,10 @@ export default defineType({
                     { title: 'Acoustic Guitar', value: 'acoustic-guitar' },
                     { title: 'Student Violin', value: 'student-violin' },
                     { title: 'Professional Violin', value: 'professional-violin' },
-                    { title: 'Digital Piano', value:'digital-piano' },
-                    { title: 'Guitar Amp', value:'guitar-amp' },
-                    { title: 'Setar', value:'setar' },
-                    { title: 'Tar', value:'tar' },
+                    { title: 'Digital Piano', value: 'digital-piano' },
+                    { title: 'Guitar Amp', value: 'guitar-amp' },
+                    { title: 'Setar', value: 'setar' },
+                    { title: 'Tar', value: 'tar' },
                 ],
                 layout: 'dropdown',
             },
@@ -93,19 +120,19 @@ export default defineType({
             type: 'number',
             description: 'Available stock quantity (if not using variants)',
         }),
-        // Ratings and reviews
-        defineField({
-            name: 'rating',
-            title: 'Rating',
-            type: 'number',
-            description: 'Rating out of 5',
-        }),
-        defineField({
-            name: 'reviews',
-            title: 'Reviews',
-            type: 'number',
-            description: 'Number of reviews',
-        }),
+        // // Ratings and reviews
+        // defineField({
+        //     name: 'rating',
+        //     title: 'Rating',
+        //     type: 'number',
+        //     description: 'Rating out of 5',
+        // }),
+        // defineField({
+        //     name: 'reviews',
+        //     title: 'Reviews',
+        //     type: 'number',
+        //     description: 'Number of reviews',
+        // }),
         // Description and extra info
         defineField({
             name: 'description',
@@ -118,12 +145,41 @@ export default defineType({
             type: 'array',
             of: [{ type: 'string' }],
         }),
+
         defineField({
             name: 'availableColors',
             title: 'Available Colors',
             type: 'array',
             of: [{ type: 'string' }],
             description: 'List of color options (if not using variants)',
+        }),
+        defineField({
+            name: 'weight',
+            title: 'Weight (lbs)',
+            type: 'number',
+            description: 'Product weight in pounds',
+            validation: Rule => Rule.required().min(0.01),
+        }),
+        defineField({
+            name: 'length',
+            title: 'Length (in)',
+            type: 'number',
+            description: 'Product length in inches',
+            validation: Rule => Rule.required().min(0),
+        }),
+        defineField({
+            name: 'width',
+            title: 'Width (in)',
+            type: 'number',
+            description: 'Product width in inches',
+            validation: Rule => Rule.required().min(0),
+        }),
+        defineField({
+            name: 'height',
+            title: 'Height (in)',
+            type: 'number',
+            description: 'Product height in inches',
+            validation: Rule => Rule.required().min(0),
         }),
         // Variants for different configurations
         defineField({
@@ -180,8 +236,15 @@ export default defineType({
     preview: {
         select: {
             title: 'name',
-            media: 'images.0',
-            subtitle: 'mainCategory',
+            media: 'image',
+            subtitle: 'featured',
+        },
+        prepare({ title, media, subtitle }) {
+            return {
+                title,
+                media,
+                subtitle: subtitle ? '★ Featured' : undefined,
+            }
         },
     },
-});
+})
