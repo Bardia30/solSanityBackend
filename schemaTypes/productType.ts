@@ -28,8 +28,8 @@ export default defineType({
             options: {
                 list: [
                     { title: 'Classical Guitar', value: 'classical-guitar' },
-                    { title: 'Electric Guitar', value: 'acoustic-guitar' },
-                    { title: 'Acoustic Guitar', value: 'electric-guitar' },
+                    { title: 'Electric Guitar', value: 'electric-guitar' },
+                    { title: 'Acoustic Guitar', value: 'acoustic-guitar' },
                     { title: 'Ukelele', value: 'ukelele' },
                     { title: 'Violin', value: 'violin' },
                     { title: 'Piano', value: 'piano' },
